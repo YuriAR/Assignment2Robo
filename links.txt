@@ -1,0 +1,6 @@
+http://www.lejos.org/nxt/pc/api/
+http://www.lejos.org/nxt/pc/api/lejos/geom/Point.html
+http://www.lejos.org/nxt/pc/api/lejos/robotics/localization/OdometryPoseProvider.html
+http://www.lejos.org/nxt/pc/api/lejos/robotics/navigation/Pose.html
+http://www.lejos.org/nxt/pc/api/lejos/robotics/navigation/DifferentialPilot.html
+http://www.lejos.org/nxt/pc/api/lejos/robotics/navigation/MoveProvider.html
