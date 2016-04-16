@@ -25,36 +25,71 @@ public class Assignment2 {
 		Button.waitForAnyPress();							
 		LCD.clear();
 		
-		Point sides[];
+		float sides[];
 		Point start;
-		Point finish;
+		//Point finish;
+		float xStart;
+		float xFinish;
+		float yStart;
+		float yFinish;
+		float xWall;
+		float yWall;
+
 		Pose pose;
 		
 		UltrasonicSensor sonic = new UltrasonicSensor(SensorPort.S1);
 		DifferentialPilot pilot = new DifferentialPilot(2.25f, 5.5f, Motor.A, Motor.B);
 		PoseProvider pp = new OdometryPoseProvider(pilot);
-		pose = pp.getPose();
-		start = pose.getLocation();
+		//start = pose.getLocation();
 		//LCD.drawString(location1.toString(), -10, 0);
 		//pilot.travel(30);
 		for(int i=0; i<4; i++){
+
+			pose = pp.getPose();
+			start = pose.getLocation();
+
+			//xStart = pose.getX();
+			//yStart = pose.getY();
+
 			pilot.forward();
+
 			while(sonic.getDistance() > 20){
 				
 			}
 			pilot.stop();
-			pilot.rotate(75);
+
 			pose = pp.getPose();
-			finish = pose.getLocation();
+			sides[i] = pose.distanceTo(start);
+
+			//pose = pp.getPose();
+			//xFinish = pose.getX();
+			//yFinish = pose.getY();
+
+			//xWall = xFinish - xStart;
+			//yWall = yFinish - yStart;
+
+			//if(xWall > yWall){			//Moviment in only one coordinate
+			//	sides[i] = xWall;
+			//}
+			//else{
+			//	sides[i] = yWall;
+			//}
+
+
+
+			pilot.rotate(75);
+			
+			//finish = pose.getLocation();
 			//subtract finish - start for each side and store it
 			//sides[i] = result
 		}
 
 		//Calculate wallDistance depending on the direction of the movement (horizontal or vertical in relation to the longest wall)
 		
+		Behavior b0 = new MoveForwardBehavior(pilot);
 		Behavior b1 = new ObstacleBahavior(pilot,pp,wallDistance);
 		Behavior b2 = new BumperBehavior(pilot);
-		Behavior [] bArray = {b1,b2};				//Setting behavior priority.
+		Behavior [] bArray = {b0,b1,b2};				//Setting behavior priority.
 	    Arbitrator arby = new Arbitrator(bArray);
 	    arby.start();
 		

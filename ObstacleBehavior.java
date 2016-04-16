@@ -27,8 +27,8 @@ public class ObstacleBehavior implements Behavior {
 	@Override
 	public boolean takeControl() {		
 		Pose pose = pp.getPose();
-		Point current = pose.getLocation();			  
-		if(sonic.getDistance() < 20 && current+10 < wallDistance){
+		//Point current = pose.getLocation();			  
+		if(sonic.getDistance() < 20 && pose.getX()+10 < wallDistance){ //Plus 10 to prevent reading errors (x or y?)
 			return true;
 		}
 		else{								  
@@ -38,9 +38,8 @@ public class ObstacleBehavior implements Behavior {
 
 	@Override
 	public void action() {
-		//Decide if its an object blocking the way or if is the wall
 		LCD.drawString("Avoiding obstacle", 0, 0);
-		pilot.arc(45, 180);
+		pilot.arc(45, 180);	//to test
 
 		LCD.clear();
 	}
