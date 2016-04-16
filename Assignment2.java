@@ -28,23 +28,29 @@ public class Assignment2 {
 		Point sides[];
 		Point start;
 		Point finish;
+		Pose pose;
 		
 		UltrasonicSensor sonic = new UltrasonicSensor(SensorPort.S1);
 		DifferentialPilot pilot = new DifferentialPilot(2.25f, 5.5f, Motor.A, Motor.B);
 		PoseProvider pp = new OdometryPoseProvider(pilot);
-		//Pose pose1 = pp.getPose();
-		//Point location1 = pose1.getLocation();
+		pose = pp.getPose();
+		start = pose.getLocation();
 		//LCD.drawString(location1.toString(), -10, 0);
 		//pilot.travel(30);
 		for(int i=0; i<4; i++){
 			pilot.forward();
-			while(sonic.getDistance() < 20){
+			while(sonic.getDistance() > 20){
 				
 			}
+			pilot.stop();
 			pilot.rotate(75);
+			pose = pp.getPose();
+			finish = pose.getLocation();
 			//subtract finish - start for each side and store it
 			//sides[i] = result
 		}
+		
+		
 		
 		pilot.(75);
 		Pose pose2 = pp.getPose();
