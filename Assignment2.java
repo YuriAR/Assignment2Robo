@@ -25,6 +25,10 @@ public class Assignment2 {
 		Button.waitForAnyPress();							
 		LCD.clear();
 		
+		Point sides[];
+		Point start;
+		Point finish;
+		
 		UltrasonicSensor sonic = new UltrasonicSensor(SensorPort.S1);
 		DifferentialPilot pilot = new DifferentialPilot(2.25f, 5.5f, Motor.A, Motor.B);
 		PoseProvider pp = new OdometryPoseProvider(pilot);
@@ -37,7 +41,9 @@ public class Assignment2 {
 			while(sonic.getDistance() < 20){
 				
 			}
-			
+			pilot.rotate(75);
+			//subtract finish - start for each side and store it
+			//sides[i] = result
 		}
 		
 		pilot.(75);
