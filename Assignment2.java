@@ -49,15 +49,22 @@ public class Assignment2 {
 			//subtract finish - start for each side and store it
 			//sides[i] = result
 		}
+
+		//Calculate wallDistance depending on the direction of the movement (horizontal or vertical in relation to the longest wall)
+		
+		Behavior b1 = new ObstacleBahavior(pilot,pp,wallDistance);
+		Behavior b2 = new BumperBehavior(pilot);
+		Behavior [] bArray = {b1,b2};				//Setting behavior priority.
+	    Arbitrator arby = new Arbitrator(bArray);
+	    arby.start();
 		
 		
-		
-		pilot.(75);
-		Pose pose2 = pp.getPose();
-		Point location2 = pose2.getLocation();
-		LCD.clear();
-		LCD.drawString(location2.toString(), -15, 0);
-		Button.waitForAnyPress();
+		//pilot.(75);
+		//Pose pose2 = pp.getPose();
+		//Point location2 = pose2.getLocation();
+		//LCD.clear();
+		//.drawString(location2.toString(), -15, 0);
+		//Button.waitForAnyPress();
 		//Behavior b1 = new ClapBehavior();
 		//Behavior b2 = new Turn90LightBehavior();
 		//Behavior b3 = new UltrasonicSensorBehavior();
