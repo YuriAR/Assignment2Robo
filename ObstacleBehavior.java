@@ -2,6 +2,8 @@ import lejos.nxt.LightSensor;
 import lejos.nxt.*;
 import lejos.robotics.subsumption.Behavior;
 import lejos.robotics.navigation.DifferentialPilot;
+import lejos.robotics.localization.OdometryPoseProvider;
+import lejos.robotics.navigation.Pose;
 
 /* 
 Assingment 2 - Mobile Robotics
@@ -15,20 +17,22 @@ public class ObstacleBehavior implements Behavior {
 
 	public int wallDistance;
 	public DifferentialPilot pilot;
-	public PoseProvider pp;
+	public OdometryPoseProvider pp;
 
-	UltrasonicSensor sonic = new UltrasonicSensor(SensorPort.S1);
+	public UltrasonicSensor sonic;
 	
-	public ObstacleBehavior(DifferentialPilot pilot, PoseProvider pp, int wallDistance){
+	public ObstacleBehavior(DifferentialPilot pilot, OdometryPoseProvider pp, int wallDistance, UltrasonicSensor sonic){
 		this.pp = pp;
 		this.pilot = pilot;
+		this.sonic = sonic;
+		this.wallDistance = wallDistance;
 	}
 	
 	@Override
 	public boolean takeControl() {		
 		Pose pose = pp.getPose();
 		//Point current = pose.getLocation();			  
-		if(sonic.getDistance() < 20 && pose.getX()+10 < wallDistance){ //Plus 10 to prevent reading errors (x or y?)
+		if(sonic.getDistance() < 22 && pose.getX()+10 < wallDistance){ //Plus 10 to prevent reading errors (x or y?)
 			return true;
 		}
 		else{								  

@@ -4,6 +4,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.localization.*;
 import lejos.geom.Point;
 import lejos.robotics.navigation.*;
+import lejos.robotics.localization.OdometryPoseProvider;
 import lejos.nxt.LCD;
 import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
@@ -25,7 +26,7 @@ public class Assignment2 {
 		Button.waitForAnyPress();							
 		LCD.clear();
 		
-		float sides[];
+		float sides[] = new float[4];
 		Point start;
 		//Point finish;
 		float xStart;
@@ -38,8 +39,9 @@ public class Assignment2 {
 		Pose pose;
 		
 		UltrasonicSensor sonic = new UltrasonicSensor(SensorPort.S1);
-		DifferentialPilot pilot = new DifferentialPilot(2.25f, 5.5f, Motor.A, Motor.B);
-		PoseProvider pp = new OdometryPoseProvider(pilot);
+		DifferentialPilot pilot = new DifferentialPilot(2.25f, 4.25f, Motor.A, Motor.B);
+		OdometryPoseProvider pp = new OdometryPoseProvider(pilot);
+		pilot.setRotateSpeed(50);
 		//start = pose.getLocation();
 		//LCD.drawString(location1.toString(), -10, 0);
 		//pilot.travel(30);
@@ -53,7 +55,7 @@ public class Assignment2 {
 
 			pilot.forward();
 
-			while(sonic.getDistance() > 20){
+			while(sonic.getDistance() > 22){
 				
 			}
 			pilot.stop();
@@ -77,7 +79,7 @@ public class Assignment2 {
 
 
 
-			pilot.rotate(75);
+			pilot.rotate(90);
 			
 			//finish = pose.getLocation();
 			//subtract finish - start for each side and store it
@@ -86,8 +88,10 @@ public class Assignment2 {
 
 		//Calculate wallDistance depending on the direction of the movement (horizontal or vertical in relation to the longest wall)
 		
-		Behavior b0 = new MoveForwardBehavior(pilot);
-		Behavior b1 = new ObstacleBahavior(pilot,pp,wallDistance);
+		int distance = Math.round(sides[0]); //placeholder
+		//int wallDistance = 100; //placeholder
+		Behavior b0 = new MoveForwardBehavior(pilot, distance, pp);
+		Behavior b1 = new ObstacleBehavior(pilot,pp,distance, sonic);
 		Behavior b2 = new BumperBehavior(pilot);
 		Behavior [] bArray = {b0,b1,b2};				//Setting behavior priority.
 	    Arbitrator arby = new Arbitrator(bArray);
