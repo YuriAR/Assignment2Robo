@@ -30,9 +30,9 @@ public class ObstacleBehavior implements Behavior {
 	
 	@Override
 	public boolean takeControl() {		
-		Pose pose = pp.getPose();
+		//Pose pose = pp.getPose();
 		//Point current = pose.getLocation();			  
-		if((sonic.getDistance() < 22) && ((pose.getX()+10 < wallDistance) || (pose.getX()+10 < wallDistance))){ //Plus 10 to prevent reading errors (x or y?)
+		if(sonic.getDistance() < 22 && pilot.getMovementIncrement()+5 < wallDistance){	//+5 for errors
 			return true;
 		}
 		else{								  

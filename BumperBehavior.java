@@ -34,11 +34,12 @@ public class BumperBehavior implements Behavior {
 
 	@Override
 	public void action() {
-		suppressed = false;
-		LCD.drawString("Stop", 0, 0);
+		//suppressed = false;
+		LCD.drawString("Stop - Bump", 0, 0);
 		pilot.stop();					//Stopping is the only action on this behavior
-	    while( !suppressed )
-	        Thread.yield();
+	    while( !suppressed ){
+	    	Thread.yield();
+	    }
 		LCD.clear();
 	}
 
