@@ -6,6 +6,7 @@ import lejos.robotics.subsumption.Behavior;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.localization.OdometryPoseProvider;
 import lejos.robotics.navigation.Pose;
+import lejos.nxt.Button;
 
 /* 
 Assingment 2 - Mobile Robotics
@@ -55,7 +56,7 @@ public class MoveForwardBehavior implements Behavior {
 			pilot.travel(toMove,true);			//alternative
 			//pilot.forward();
 			while( !suppressed && pilot.isMoving()){
-				if(light.getNormalizedLightValue() > 600){ //needs testing (carpet thing... should beep and print carpet)
+				if(light.getNormalizedLightValue() < 600){ //needs testing (carpet thing... should beep and print carpet)
 					LCD.clear();
 					Sound.twoBeeps();
 					LCD.drawString("Carpet", 0, 0);
@@ -65,20 +66,35 @@ public class MoveForwardBehavior implements Behavior {
 					LCD.drawString("Moving", 0, 0);
 				} 
 				Thread.yield();
+				if(direction%2 == 0 && !pilot.isMoving() && !suppressed){
+					pilot.rotate(90);
+					pilot.travel(7,false);
+					pilot.rotate(90);
+					direction++;
+					leftToMove = leftToMove - 7;	
+				}
+				else if (direction%2 != 0 && !pilot.isMoving() && !suppressed){
+					pilot.rotate(-90);
+					pilot.travel(7,false);
+					pilot.rotate(-90);
+					direction++;
+					leftToMove = leftToMove - 7;	
+				}
 			}
-			if(direction%2 == 0){
+/* 			if(direction%2 == 0 && !suppressed){
 				pilot.rotate(90);
 				pilot.travel(7,false);
 				pilot.rotate(90);
 				direction++;
+				leftToMove = leftToMove - 7;	
 			}
-			else{
+			else if (direction%2 != 0 && !suppressed){
 				pilot.rotate(-90);
 				pilot.travel(7,false);
 				pilot.rotate(-90);
 				direction++;
-			}
-			leftToMove = distance - 7;								
+				leftToMove = leftToMove - 7;	
+			} */						
 			LCD.clear();
 		}
 		else{
@@ -94,6 +110,8 @@ public class MoveForwardBehavior implements Behavior {
 		//update distance variable if interupted
 		//static variable
 		//get the pose and see how much it moved, and calculate whats left when the behavior takes control again
+		//Button.waitForAnyPress();
+		pilot.stop();
 		pose = pp.getPose();
 		int distanceDone = Math.round(pose.distanceTo(start));
 		toMove = toMove - distanceDone;
