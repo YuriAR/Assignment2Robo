@@ -43,7 +43,12 @@ public class ObstacleBehavior implements Behavior {
 	@Override
 	public void action() {
 		LCD.drawString("Avoiding obstacle", 0, 0);
+
+		//Pose pose = pp.getPose();
+		//Point current = pose.getLocation(); //print this and the finish position to see how much it moved in the line, to hardcode/update the move behavior
+
 		pilot.arc(45, 180);	//to test
+
 
 		LCD.clear();
 	}
