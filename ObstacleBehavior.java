@@ -4,6 +4,8 @@ import lejos.robotics.subsumption.Behavior;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.localization.OdometryPoseProvider;
 import lejos.robotics.navigation.Pose;
+import lejos.geom.Point;
+import lejos.util.Delay;
 
 /* 
 Assingment 2 - Mobile Robotics
@@ -30,9 +32,13 @@ public class ObstacleBehavior implements Behavior {
 	
 	@Override
 	public boolean takeControl() {		
-		//Pose pose = pp.getPose();
-		//Point current = pose.getLocation();			  
-		if(sonic.getDistance() < 22 && pilot.getMovementIncrement()+5 < wallDistance){	//+5 for errors
+		Pose pose = pp.getPose();
+		//Point current = pose.getLocation();	
+		Point start = MoveForwardBehavior.start;
+		if(start == null){
+			return false;
+		}
+		if(sonic.getDistance() < 30 && pose.distanceTo(start)+5 < wallDistance){	//+5 for errors
 			return true;
 		}
 		else{								  
@@ -43,11 +49,13 @@ public class ObstacleBehavior implements Behavior {
 	@Override
 	public void action() {
 		LCD.drawString("Avoiding obstacle", 0, 0);
-
+		Delay.msDelay(1000);
 		//Pose pose = pp.getPose();
 		//Point current = pose.getLocation(); //print this and the finish position to see how much it moved in the line, to hardcode/update the move behavior
-
-		pilot.arc(45, 180);	//to test
+		//pilot.rotate(90);
+		pilot.arc(7.0, 45, false);	//to test
+		pilot.arc(7.0, -90, false);	//to test
+		//pilot.rotate(-90);
 
 
 		LCD.clear();

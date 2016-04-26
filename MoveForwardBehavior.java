@@ -24,19 +24,21 @@ public class MoveForwardBehavior implements Behavior {
 	public DifferentialPilot pilot;
 	public OdometryPoseProvider pp;
 	Pose pose;
-	Point start;
+	public static Point start;
 
 	public static int distanceTotal;
 	public static int leftToMoveSideways;
 	public static int direction = 0;
 	public static int toMoveForward;
+	public static int firstLight;
 
 	LightSensor light = new LightSensor(SensorPort.S2);
 
-	public MoveForwardBehavior(DifferentialPilot pilot, int distanceTotal, int distanceSide, OdometryPoseProvider pp){
+	public MoveForwardBehavior(DifferentialPilot pilot, int distanceTotal, int distanceSide, OdometryPoseProvider pp, int light){
 		this.pilot = pilot;
-		this.distance = distanceTotal;
+		this.distanceTotal = distanceTotal;
 		this.pp = pp;
+		this.firstLight = light;
 		this.toMoveForward = distanceTotal;
 		this.leftToMoveSideways = distanceSide;
 	}
@@ -54,9 +56,9 @@ public class MoveForwardBehavior implements Behavior {
 			start = pose.getLocation();		
 			LCD.drawString("Moving", 0, 0);
 
-
+			
 			pilot.forward();
-			while(!supressed && toMoveForward > 0){
+			while(!suppressed && toMoveForward > 0){
 				if(light.getNormalizedLightValue() < 600){ //needs testing (carpet thing... should beep and print carpet)
 					LCD.clear();
 					Sound.twoBeeps();
@@ -66,7 +68,8 @@ public class MoveForwardBehavior implements Behavior {
 					LCD.clear();
 					LCD.drawString("Moving", 0, 0);
 				} 
-				toMoveForward = toMoveForward - pilot.getMovementIncrement();
+				pose = pp.getPose();
+				toMoveForward = distanceTotal - Math.round(pose.distanceTo(start));
 				Thread.yield();
 			}
 			pilot.stop();
@@ -80,6 +83,8 @@ public class MoveForwardBehavior implements Behavior {
 				pilot.travel(7,false);
 				pilot.rotate(90);
 				direction++;
+				pose = pp.getPose();
+				start = pose.getLocation();
 				leftToMoveSideways = leftToMoveSideways - 7;	
 			}
 			else if (direction%2 != 0 && !suppressed){
@@ -87,7 +92,9 @@ public class MoveForwardBehavior implements Behavior {
 				pilot.travel(7,false);
 				pilot.rotate(-90);
 				direction++;
-				leftToMoveSideways = leftToMoveSideways - 7;	
+				pose = pp.getPose();
+				start = pose.getLocation();
+				leftToMoveSideways = leftToMoveSideways - 7;
 			}
 			LCD.clear();
 		}
@@ -154,9 +161,9 @@ public class MoveForwardBehavior implements Behavior {
 		//Button.waitForAnyPress();
 		pilot.stop();
 		pose = pp.getPose();
-		//int distanceDone = Math.round(pose.distanceTo(start));
-		int distanceDone = Math.round(pilot.getMovementIncrement());
-		toMoveForward = toMoveForward - distanceDone;
+		int distanceDone = Math.round(pose.distanceTo(start));
+		//int distanceDone = Math.round(pilot.getMovementIncrement());
+		toMoveForward = distanceTotal - distanceDone;
 		
 		if(toMoveForward == 0){
 			toMoveForward = distanceTotal;

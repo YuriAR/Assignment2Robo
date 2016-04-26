@@ -32,11 +32,12 @@ public class Assignment2 {
 		Pose pose;
 		
 		UltrasonicSensor sonic = new UltrasonicSensor(SensorPort.S1);
-		DifferentialPilot pilot = new DifferentialPilot(2.25f, 4.25f, Motor.A, Motor.B);
+		DifferentialPilot pilot = new DifferentialPilot(2.25f, 4.4f, Motor.A, Motor.B);
 		OdometryPoseProvider pp = new OdometryPoseProvider(pilot);
+		LightSensor light = new LightSensor(SensorPort.S2);
 
 		pilot.setRotateSpeed(50);
-		pilot.setTravelSpeed(20);		//test
+		pilot.setTravelSpeed(8);		//test
 
 		for(int i=0; i<4; i++){
 
@@ -61,7 +62,7 @@ public class Assignment2 {
 		int distanceForward = Math.round(sides[0]);
 		int distanceSide = Math.round(sides[1]);
 
-		Behavior b0 = new MoveForwardBehavior(pilot, distanceForward, distanceSide, pp);
+		Behavior b0 = new MoveForwardBehavior(pilot, distanceForward, distanceSide, pp, light.getNormalizedLightValue());
 		Behavior b1 = new ObstacleBehavior(pilot,pp,distanceForward, sonic);
 		Behavior b2 = new BumperBehavior(pilot);
 		Behavior [] bArray = {b0,b1,b2};				//Setting behavior priority.
