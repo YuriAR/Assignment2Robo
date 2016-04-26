@@ -55,7 +55,7 @@ public class ObstacleBehavior implements Behavior {
 		pilot.rotate(90);
 		pilot.arc(-7, 180, false);	//to test
 		pilot.rotate(90);
-		MoveForwardBehavior.toMoveForward = MoveForwardBehavior.toMoveForward - 16;
+		MoveForwardBehavior.toMoveForward = MoveForwardBehavior.toMoveForward - 20;
 
 
 		LCD.clear();
