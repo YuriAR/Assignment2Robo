@@ -38,7 +38,7 @@ public class ObstacleBehavior implements Behavior {
 		if(start == null){
 			return false;
 		}
-		if(sonic.getDistance() < 30 && pose.distanceTo(start)+5 < wallDistance){	//+5 for errors
+		if(sonic.getDistance() < 30 && pose.distanceTo(start)+31 < wallDistance){	//+5 for errors
 			return true;
 		}
 		else{								  
@@ -52,10 +52,10 @@ public class ObstacleBehavior implements Behavior {
 		Delay.msDelay(1000);
 		//Pose pose = pp.getPose();
 		//Point current = pose.getLocation(); //print this and the finish position to see how much it moved in the line, to hardcode/update the move behavior
-		//pilot.rotate(90);
-		pilot.arc(7.0, 45, false);	//to test
-		pilot.arc(7.0, -90, false);	//to test
-		//pilot.rotate(-90);
+		pilot.rotate(90);
+		pilot.arc(-7, 180, false);	//to test
+		pilot.rotate(90);
+		MoveForwardBehavior.toMoveForward = MoveForwardBehavior.toMoveForward - 16;
 
 
 		LCD.clear();

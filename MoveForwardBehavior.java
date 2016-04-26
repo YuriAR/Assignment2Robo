@@ -59,7 +59,7 @@ public class MoveForwardBehavior implements Behavior {
 			
 			pilot.forward();
 			while(!suppressed && toMoveForward > 0){
-				if(light.getNormalizedLightValue() < 600){ //needs testing (carpet thing... should beep and print carpet)
+				if(light.getNormalizedLightValue() < firstLight){ //needs testing (carpet thing... should beep and print carpet)
 					LCD.clear();
 					Sound.twoBeeps();
 					LCD.drawString("Carpet", 0, 0);
