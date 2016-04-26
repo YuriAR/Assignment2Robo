@@ -20,6 +20,7 @@ public class BumperBehavior implements Behavior {
 
 	TouchSensor touch = new TouchSensor(SensorPort.S4);
 	
+	//Constructor receives the pilot
 	public BumperBehavior(DifferentialPilot pilot){
 		this.pilot = pilot;
 	}
@@ -34,10 +35,9 @@ public class BumperBehavior implements Behavior {
 
 	@Override
 	public void action() {
-		//suppressed = false;
 		LCD.drawString("Stop - Bump", 0, 0);
 		pilot.stop();					//Stopping is the only action on this behavior
-	    while( !suppressed ){
+	    while( !suppressed ){			//The program is going to stop here and end
 	    	Thread.yield();
 	    }
 		LCD.clear();
